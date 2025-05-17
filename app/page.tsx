@@ -8,10 +8,13 @@ import {
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { Button } from "./components/DemoComponents";
 import { Icon } from "./components/DemoComponents";
+import Image from "next/image";
 
 export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
   const [frameAdded, setFrameAdded] = useState(false);
+  const [isCalling, setIsCalling] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -57,6 +60,11 @@ export default function App() {
     return null;
   }, [context, frameAdded, handleAddFrame]);
 
+  const handleLogoClick = () => {
+    setIsCalling(!isCalling);
+    setIsAnimating(!isAnimating);
+  };
+
   return (
     <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] mini-app-theme from-[var(--app-background)] to-[var(--app-gray)]">
       <div className="w-full max-w-md mx-auto px-4 py-3">
@@ -67,8 +75,29 @@ export default function App() {
           <div>{saveFrameButton}</div>
         </header>
 
-        <main className="flex-1">
-          <p className="text-lg">Call Farlo to learn about Farcaster!</p>
+        <main className="flex-1 flex flex-col items-center justify-center">
+          <p className="text-lg text-center">Call Farlo to learn about Farcaster!</p>
+          <div className="relative w-48 h-48 mt-28">
+            <div 
+              className={`absolute inset-0 rounded-full cursor-pointer transition-transform duration-300 hover:scale-105 z-10 ${isCalling ? 'animate-pulse' : ''}`}
+              onClick={handleLogoClick}
+            >
+              <Image
+                src="/logo.png"
+                alt="Farlo Logo"
+                fill
+                className="rounded-full object-cover"
+                priority
+              />
+            </div>
+            {isCalling && isAnimating && (
+              <>
+                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping opacity-75 z-0"></div>
+                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping animation-delay-1000 opacity-50 z-0"></div>
+                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping animation-delay-2000 opacity-25 z-0"></div>
+              </>
+            )}
+          </div>
         </main>
 
         <footer className="fixed bottom-0 left-0 right-0 bg-[var(--app-background)] border-t border-[var(--app-gray)] py-4 flex justify-center">
