@@ -37,7 +37,6 @@ export default function App() {
       setFrameReady();
     }
   }, [setFrameReady, isFrameReady]);
-
   const handleAddFrame = useCallback(async () => {
     const frameAdded = await addFrame();
     setFrameAdded(Boolean(frameAdded));
