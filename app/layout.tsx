@@ -20,10 +20,10 @@ export async function generateMetadata(): Promise<Metadata> {
         version: process.env.NEXT_PUBLIC_VERSION,
         imageUrl: process.env.NEXT_PUBLIC_IMAGE_URL,
         button: {
-          title: `Launch ${process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME}`,
+          title: `Meet Farlo! 👋`,
           action: {
             type: "launch_frame",
-            name: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
+            name: "Farlo",
             url: URL,
             splashImageUrl: process.env.NEXT_PUBLIC_SPLASH_IMAGE_URL,
             splashBackgroundColor: `#${process.env.NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR}`,
