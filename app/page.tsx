@@ -152,60 +152,6 @@ export default function App() {
               </>
             )}
           </div>
-
-          {/* Simple Audio Test Component */}
-          <div className="mt-8 p-4 border rounded-lg">
-            <p className="text-sm mb-2">Audio Test:</p>
-            <button 
-              onClick={async () => {
-                try {
-                  console.log('Starting audio test...');
-                  
-                  // Check if AudioContext is available
-                  if (!window.AudioContext && !(window as any).webkitAudioContext) {
-                    throw new Error('AudioContext not supported');
-                  }
-                  console.log('AudioContext is supported');
-
-                  // Create audio context
-                  const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-                  const audioContext = new AudioContext();
-                  console.log('AudioContext created, state:', audioContext.state);
-
-                  // Create a simple beep
-                  const oscillator = audioContext.createOscillator();
-                  console.log('Oscillator created');
-
-                  // Set up the oscillator
-                  oscillator.type = 'sine';
-                  oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-                  console.log('Oscillator configured');
-
-                  // Connect to destination
-                  oscillator.connect(audioContext.destination);
-                  console.log('Connected to audio destination');
-
-                  // Start and stop
-                  oscillator.start();
-                  console.log('Oscillator started');
-                  
-                  // Stop after 1 second
-                  setTimeout(() => {
-                    oscillator.stop();
-                    console.log('Oscillator stopped');
-                  }, 1000);
-
-                } catch (error) {
-                  console.error('Audio test error:', error);
-                  alert(`Audio test failed: ${error.message}\nCheck console for details`);
-                }
-              }}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Play Test Tone
-            </button>
-            <p className="text-xs text-gray-500 mt-2">Check console for detailed logs</p>
-          </div>
         </main>
 
         <footer className="fixed bottom-0 left-0 right-0 bg-[var(--app-background)] border-t border-[var(--app-gray)] py-4 flex justify-center">
