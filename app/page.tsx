@@ -9,12 +9,14 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import { Button } from "./components/DemoComponents";
 import { Icon } from "./components/DemoComponents";
 import Image from "next/image";
+import Vapi from "@vapi-ai/web";
 
 export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
   const [frameAdded, setFrameAdded] = useState(false);
   const [isCalling, setIsCalling] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [vapiClient, setVapiClient] = useState<Vapi | null>(null);
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -60,9 +62,39 @@ export default function App() {
     return null;
   }, [context, frameAdded, handleAddFrame]);
 
-  const handleLogoClick = () => {
-    setIsCalling(!isCalling);
-    setIsAnimating(!isAnimating);
+  // Initialize Vapi client
+  useEffect(() => {
+    const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY || "");
+    setVapiClient(vapi);
+
+    // Cleanup function
+    return () => {
+      if (vapi) {
+        vapi.stop();
+      }
+    };
+  }, []);
+
+  const handleLogoClick = async () => {
+    try {
+      if (!vapiClient) {
+        console.error("Vapi client not initialized");
+        return;
+      }
+
+      if (isCalling) {
+        // Stop the call
+        await vapiClient.stop();
+      } else {
+        // Start the call
+        await vapiClient.start("f169e7e7-3c14-4f10-adfa-1efe00219990");
+      }
+
+      setIsCalling(!isCalling);
+      setIsAnimating(!isAnimating);
+    } catch (error) {
+      console.error("Error handling Vapi call:", error);
+    }
   };
 
   return (
