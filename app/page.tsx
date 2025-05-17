@@ -17,6 +17,7 @@ export default function App() {
   const [isCalling, setIsCalling] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [vapiClient, setVapiClient] = useState<Vapi | null>(null);
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -62,6 +63,22 @@ export default function App() {
     return null;
   }, [context, frameAdded, handleAddFrame]);
 
+  // Initialize audio context
+  useEffect(() => {
+    const initAudio = async () => {
+      try {
+        // @ts-expect-error - webkitAudioContext is supported in some browsers
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const context = new AudioContext();
+        setAudioContext(context);
+      } catch (error) {
+        console.error("Error initializing audio:", error);
+      }
+    };
+
+    initAudio();
+  }, []);
+
   // Initialize Vapi client
   useEffect(() => {
     const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY || "");
@@ -80,6 +97,11 @@ export default function App() {
       if (!vapiClient) {
         console.error("Vapi client not initialized");
         return;
+      }
+
+      // Resume audio context on user interaction (required for mobile)
+      if (audioContext && audioContext.state === "suspended") {
+        await audioContext.resume();
       }
 
       if (isCalling) {
