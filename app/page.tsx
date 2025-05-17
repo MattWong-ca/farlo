@@ -152,6 +152,19 @@ export default function App() {
               </>
             )}
           </div>
+
+          <button
+            onClick={() => {
+              window.open(
+                "https://warpcast.com/~/compose?text=Just%20met%20Farlo%2C%20who%20introduced%20me%20to%20Farcaster!%0A%0AAsk%20him%20for%20new%20channel%20%2B%20follow%20recs%3A&embeds[]=https://test-mini-app-phi.vercel.app",
+                "_blank"
+              );
+            }}
+            className="mt-24 px-4 py-2 bg-[var(--app-accent)] text-white rounded-full hover:opacity-90 transition-opacity flex items-center gap-2"
+          >
+            <p className="text-md">Share experience</p>
+            <Icon name="arrow-right" size="sm" />
+          </button>
         </main>
 
         <footer className="fixed bottom-0 left-0 right-0 bg-[var(--app-background)] border-t border-[var(--app-gray)] py-4 flex justify-center">
