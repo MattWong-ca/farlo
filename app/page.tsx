@@ -5,19 +5,6 @@ import {
   useAddFrame,
   useOpenUrl,
 } from "@coinbase/onchainkit/minikit";
-// import {
-//   Name,
-//   Identity,
-//   Address,
-//   Avatar,
-//   EthBalance,
-// } from "@coinbase/onchainkit/identity";
-// import {
-//   ConnectWallet,
-//   Wallet,
-//   WalletDropdown,
-//   WalletDropdownDisconnect,
-// } from "@coinbase/onchainkit/wallet";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { Button } from "./components/DemoComponents";
 import { Icon } from "./components/DemoComponents";
@@ -75,34 +62,16 @@ export default function App() {
       <div className="w-full max-w-md mx-auto px-4 py-3">
         <header className="flex justify-between items-center mb-3 h-11">
           <div>
-            {/* <div className="flex items-center space-x-2">
-              <Wallet className="z-10">
-                <ConnectWallet>
-                  <Name className="text-inherit" />
-                </ConnectWallet>
-                <WalletDropdown>
-                  <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
-                    <Avatar />
-                    <Name />
-                    <Address />
-                    <EthBalance />
-                  </Identity>
-                  <WalletDropdownDisconnect />
-                </WalletDropdown>
-              </Wallet>
-            </div> */}
+            <p className="text-2xl"><b>Farlo</b></p>
           </div>
           <div>{saveFrameButton}</div>
         </header>
 
         <main className="flex-1">
-        <p>Hello</p>
-        {/* Update this section to add your own components or pages */}
-          {/* {activeTab === "home" && <Home setActiveTab={setActiveTab} />}
-          {activeTab === "features" && <Features setActiveTab={setActiveTab} />} */}
+          <p className="text-lg">Call Farlo to learn about Farcaster!</p>
         </main>
 
-        <footer className="mt-2 pt-4 flex justify-center">
+        <footer className="fixed bottom-0 left-0 right-0 bg-[var(--app-background)] border-t border-[var(--app-gray)] py-4 flex justify-center">
           <Button
             variant="ghost"
             size="sm"
