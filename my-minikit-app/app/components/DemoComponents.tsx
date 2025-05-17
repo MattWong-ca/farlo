@@ -415,7 +415,7 @@ function TransactionCard() {
   }, [sendNotification]);
 
   return (
-    <Card title="Make Your First Transaction">
+    <Card title="Mae Your First Transaction">
       <div className="space-y-4">
         <p className="text-[var(--app-foreground-muted)] mb-4">
           Experience the power of seamless sponsored transactions with{" "}
