@@ -9,7 +9,6 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
 };
-
 export async function generateMetadata(): Promise<Metadata> {
   const URL = process.env.NEXT_PUBLIC_URL;
   return {
