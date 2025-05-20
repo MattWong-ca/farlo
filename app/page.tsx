@@ -165,6 +165,41 @@ export default function App() {
             <p className="text-md">Share experience</p>
             <Icon name="arrow-right" size="sm" />
           </button>
+
+          <button
+            onClick={() => {
+              try {
+                console.log('Starting audio test...');
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // 440 Hz = A4 note
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Set volume to 10%
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                console.log('Playing test tone...');
+                oscillator.start();
+                
+                // Stop after 1 second
+                setTimeout(() => {
+                  console.log('Stopping test tone...');
+                  oscillator.stop();
+                  audioContext.close();
+                }, 1000);
+              } catch (error) {
+                console.error('Audio test failed:', error);
+                alert('Audio test failed. Please check console for details.');
+              }
+            }}
+            className="mt-4 px-4 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition-colors"
+          >
+            Test Audio
+          </button>
         </main>
 
         <footer className="fixed bottom-0 left-0 right-0 bg-[var(--app-background)] border-t border-[var(--app-gray)] py-4 flex justify-center">
