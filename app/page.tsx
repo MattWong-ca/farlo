@@ -124,14 +124,15 @@ export default function App() {
       <div className="w-full max-w-md mx-auto px-4 py-3">
         <header className="flex justify-between items-center mb-3 h-11">
           <div>
-            <p className="text-2xl"><b>Farlo 🛰️</b></p>
+            <p className="text-2xl"></p>
           </div>
           <div>{saveFrameButton}</div>
         </header>
 
         <main className="flex-1 flex flex-col items-center justify-center">
-          <p className="text-lg text-center">Call Farlo to learn about Farcaster!</p>
-          <div className="relative w-48 h-48 mt-28">
+          <h1 className="text-4xl font-bold text-center mb-16">Meet Farlo 🛰️</h1>
+          
+          <div className="relative w-48 h-48">
             <div 
               className="absolute inset-0 rounded-full z-0"
             >
@@ -152,17 +153,61 @@ export default function App() {
             )}
           </div>
 
-          <div className="relative z-10 mt-16">
+          <div className="w-[70%] mt-16 space-y-2">
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={handleLogoClick}
+                className="h-12 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 border text-white bg-purple-600"
+              >
+                <Icon name={"play"} size="sm" />
+                <p className="text-base font-semibold">{'Start Call'}</p>
+              </button>
+              <button
+                onClick={handleLogoClick}
+                className="h-12 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 border bg-white hover:bg-gray-50 text-gray-900 border-gray-200"
+              >
+                <Icon name={"stop"} size="sm" />
+                <p className="text-base font-semibold">{'End Call'}</p>
+              </button>
+            </div>
+
             <button
-              onClick={handleLogoClick}
-              className={`mt-6 px-4 py-2 rounded-full transition-all duration-300 flex items-center gap-2 ${
-                isCalling 
-                  ? 'bg-red-500 hover:bg-red-600 text-white' 
-                  : 'bg-[var(--app-accent)] hover:bg-[var(--app-accent-hover)] text-white'
-              }`}
+              onClick={() => {
+                window.open(
+                  "https://warpcast.com/~/explore/channels",
+                  "_blank"
+                );
+              }}
+              className="w-full h-12 rounded-lg bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 transition-all duration-300 flex items-center justify-center gap-2"
             >
-              <Icon name={isCalling ? "stop" : "play"} size="sm" />
-              <p className="text-md font-medium">{isCalling ? 'End Call' : 'Meet Farlo'}</p>
+              <Icon name="star" size="sm" />
+              <p className="text-base font-semibold">Explore Channels</p>
+            </button>
+
+            <button
+              onClick={() => {
+                window.open(
+                  "https://warpcast.com/~/explore/users",
+                  "_blank"
+                );
+              }}
+              className="w-full h-12 rounded-lg bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <Icon name="person" size="sm" />
+              <p className="text-base font-semibold">Follow Creators</p>
+            </button>
+
+            <button
+              onClick={() => {
+                window.open(
+                  "https://warpcast.com/~/compose?text=Just%20met%20Farlo%2C%20who%20introduced%20me%20to%20Farcaster!%0A%0AAsk%20him%20for%20new%20channel%20%2B%20follow%20recs%3A&embeds[]=https://test-mini-app-phi.vercel.app",
+                  "_blank"
+                );
+              }}
+              className="w-full h-12 rounded-lg bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <Icon name="pencil" size="sm" />
+              <p className="text-base font-semibold">Make Your First Cast</p>
             </button>
           </div>
 
@@ -173,46 +218,11 @@ export default function App() {
                 "_blank"
               );
             }}
-            className="mt-24 px-4 py-2 bg-[var(--app-accent)] text-white rounded-full hover:opacity-90 transition-opacity flex items-center gap-2"
+            className="mt-8 h-12 px-4 bg-white text-gray-900 rounded-full hover:bg-gray-50 transition-all duration-300 flex items-center gap-2 border border-gray-200"
           >
-            <p className="text-md">Share experience</p>
+            <p className="text-base font-semibold">Share experience</p>
             <Icon name="arrow-right" size="sm" />
           </button>
-
-          {/* <button
-            onClick={() => {
-              try {
-                console.log('Starting audio test...');
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // 440 Hz = A4 note
-                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Set volume to 10%
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                console.log('Playing test tone...');
-                oscillator.start();
-                
-                // Stop after 1 second
-                setTimeout(() => {
-                  console.log('Stopping test tone...');
-                  oscillator.stop();
-                  audioContext.close();
-                }, 1000);
-              } catch (error) {
-                console.error('Audio test failed:', error);
-                alert('Audio test failed. Please check console for details.');
-              }
-            }}
-            className="mt-4 px-4 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition-colors"
-          >
-            Test Audio
-          </button> */}
         </main>
 
         <footer className="fixed bottom-0 left-0 right-0 bg-[var(--app-background)] border-t border-[var(--app-gray)] py-4 flex justify-center">

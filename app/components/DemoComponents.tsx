@@ -180,7 +180,7 @@ export function Home({ setActiveTab }: HomeProps) {
 }
 
 type IconProps = {
-  name: "heart" | "star" | "check" | "plus" | "arrow-right" | "play" | "stop";
+  name: "heart" | "star" | "check" | "plus" | "arrow-right" | "play" | "stop" | "person" | "pencil";
   size?: "sm" | "md" | "lg";
   className?: string;
 }
@@ -206,6 +206,37 @@ export function Icon({ name, size = "md", className = "" }: IconProps) {
       >
         <title>Heart</title>
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+      </svg>
+    ),
+    person: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <title>Person</title>
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+    ),
+    pencil: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <title>Pencil</title>
+        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
       </svg>
     ),
     play: (
