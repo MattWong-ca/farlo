@@ -124,7 +124,7 @@ export default function App() {
       <div className="w-full max-w-md mx-auto px-4 py-3">
         <header className="flex justify-between items-center mb-3 h-11">
           <div>
-            <p className="text-2xl"><b>Farlo</b></p>
+            <p className="text-2xl"><b>Farlo 🛰️</b></p>
           </div>
           <div>{saveFrameButton}</div>
         </header>
@@ -133,8 +133,7 @@ export default function App() {
           <p className="text-lg text-center">Call Farlo to learn about Farcaster!</p>
           <div className="relative w-48 h-48 mt-28">
             <div 
-              className={`absolute inset-0 rounded-full cursor-pointer transition-transform duration-300 hover:scale-105 z-10 ${isCalling ? 'animate-pulse' : ''}`}
-              onClick={handleLogoClick}
+              className="absolute inset-0 rounded-full z-0"
             >
               <Image
                 src="/logo.png"
@@ -146,11 +145,25 @@ export default function App() {
             </div>
             {isCalling && isAnimating && (
               <>
-                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping opacity-75 z-0"></div>
-                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping animation-delay-1000 opacity-50 z-0"></div>
-                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping animation-delay-2000 opacity-25 z-0"></div>
+                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping opacity-75 z-[-1]"></div>
+                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping animation-delay-1000 opacity-50 z-[-1]"></div>
+                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping animation-delay-2000 opacity-25 z-[-1]"></div>
               </>
             )}
+          </div>
+
+          <div className="relative z-10">
+            <button
+              onClick={handleLogoClick}
+              className={`mt-6 px-4 py-2 rounded-full transition-all duration-300 flex items-center gap-2 ${
+                isCalling 
+                  ? 'bg-red-500 hover:bg-red-600 text-white' 
+                  : 'bg-[var(--app-accent)] hover:bg-[var(--app-accent-hover)] text-white'
+              }`}
+            >
+              <Icon name={isCalling ? "stop" : "play"} size="sm" />
+              <p className="text-md font-medium">{isCalling ? 'End Call' : 'Meet Farlo'}</p>
+            </button>
           </div>
 
           <button
@@ -166,7 +179,7 @@ export default function App() {
             <Icon name="arrow-right" size="sm" />
           </button>
 
-          <button
+          {/* <button
             onClick={() => {
               try {
                 console.log('Starting audio test...');
@@ -199,7 +212,7 @@ export default function App() {
             className="mt-4 px-4 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition-colors"
           >
             Test Audio
-          </button>
+          </button> */}
         </main>
 
         <footer className="fixed bottom-0 left-0 right-0 bg-[var(--app-background)] border-t border-[var(--app-gray)] py-4 flex justify-center">
