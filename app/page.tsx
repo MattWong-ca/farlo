@@ -152,7 +152,7 @@ export default function App() {
             )}
           </div>
 
-          <div className="relative z-10">
+          <div className="relative z-10 mt-16">
             <button
               onClick={handleLogoClick}
               className={`mt-6 px-4 py-2 rounded-full transition-all duration-300 flex items-center gap-2 ${
