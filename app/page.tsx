@@ -119,9 +119,8 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] mini-app-theme from-[var(--app-background)] to-[var(--app-gray)]">
       <a 
-        onClick={(e) => {
-          e.preventDefault();
-          window.open("https://test-mini-app-phi.vercel.app", "_blank");
+        onClick={async () => {
+          await sdk.actions.openUrl("https://test-mini-app-phi.vercel.app");
         }}
         href="#"
         className="block w-full p-2 text-center text-sm text-purple-600 hover:text-purple-700 font-medium bg-purple-50 border-b border-purple-100 cursor-pointer"
@@ -182,10 +181,6 @@ export default function App() {
             <button
               onClick={async () => {
                 await sdk.actions.openUrl("https://farcaster.xyz/~/explore/channels");
-                // window.open(
-                //   "https://farcaster.xyz/~/explore/channels",
-                //   "_blank"
-                // );
               }}
               className="w-full h-10 rounded-lg bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 transition-all duration-300 flex items-center justify-center gap-2"
             >
@@ -194,11 +189,8 @@ export default function App() {
             </button>
 
             <button
-              onClick={() => {
-                window.open(
-                  "https://farcaster.xyz/~/explore/users",
-                  "_blank"
-                );
+              onClick={async () => {
+                await sdk.actions.openUrl("https://farcaster.xyz/~/explore/users");
               }}
               className="w-full h-10 rounded-lg bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 transition-all duration-300 flex items-center justify-center gap-2"
             >
@@ -221,11 +213,11 @@ export default function App() {
           </div>
 
           <button
-            onClick={() => {
-              window.open(
-                "https://farcaster.xyz/~/compose?text=Just%20met%20Farlo%2C%20who%20introduced%20me%20to%20Farcaster!%0A%0AAsk%20him%20for%20new%20channel%20%2B%20follow%20recs%3A&embeds[]=https://test-mini-app-phi.vercel.app",
-                "_blank"
-              );
+            onClick={async () => {
+              await sdk.actions.composeCast({ 
+                text: "Just met Farlo, who introduced me to Farcaster!\n\nAsk him for new channel + follow recs:",
+                embeds: ["https://test-mini-app-phi.vercel.app"],
+              });
             }}
             className="mt-8 h-10 px-4 bg-white text-gray-900 rounded-full hover:bg-gray-50 transition-all duration-300 flex items-center gap-2 border border-gray-200"
           >
