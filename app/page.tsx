@@ -118,10 +118,12 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] mini-app-theme from-[var(--app-background)] to-[var(--app-gray)]">
       <a 
-        href="https://test-mini-app-phi.vercel.app"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block w-full p-2 text-center text-sm text-purple-600 hover:text-purple-700 font-medium bg-purple-50 border-b border-purple-100"
+        onClick={(e) => {
+          e.preventDefault();
+          window.open("https://test-mini-app-phi.vercel.app", "_blank");
+        }}
+        href="#"
+        className="block w-full p-2 text-center text-sm text-purple-600 hover:text-purple-700 font-medium bg-purple-50 border-b border-purple-100 cursor-pointer"
       >
         On mobile? Click here for sound →
       </a>
