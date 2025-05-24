@@ -18,6 +18,7 @@ export default function App() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [vapiClient, setVapiClient] = useState<Vapi | null>(null);
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const [, setIsPlaying] = useState(false);
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -79,6 +80,29 @@ export default function App() {
     initAudio();
   }, []);
 
+  const playBeep = () => {
+    if (!audioContext) return;
+    
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // 440 Hz = A4 note
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Set volume to 10%
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.start();
+    setIsPlaying(true);
+
+    // Stop after 1 second
+    setTimeout(() => {
+      oscillator.stop();
+      setIsPlaying(false);
+    }, 1000);
+  };
+
   // Initialize Vapi client
   useEffect(() => {
     const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY || "");
@@ -112,6 +136,7 @@ export default function App() {
         await vapiClient.start("f169e7e7-3c14-4f10-adfa-1efe00219990");
       }
 
+      playBeep(); // Play beep sound when toggling call state
       setIsCalling(!isCalling);
       setIsAnimating(!isAnimating);
     } catch (error) {
