@@ -17,7 +17,8 @@ export default function App() {
   const [isCalling, setIsCalling] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [vapiClient, setVapiClient] = useState<Vapi | null>(null);
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const [beepAudioContext, setBeepAudioContext] = useState<AudioContext | null>(null);
+  const [vapiAudioContext, setVapiAudioContext] = useState<AudioContext | null>(null);
   const [, setIsPlaying] = useState(false);
   const [debugInfo, setDebugInfo] = useState<string>("");
 
@@ -65,70 +66,65 @@ export default function App() {
     return null;
   }, [context, frameAdded, handleAddFrame]);
 
-  // Initialize audio context
+  // Initialize beep audio context
   useEffect(() => {
-    const initAudio = async () => {
+    const initBeepAudio = async () => {
       try {
         // @ts-expect-error - webkitAudioContext is supported in some browsers
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const context = new AudioContext();
-        setAudioContext(context);
+        setDebugInfo(prev => prev + "\nBeep AudioContext: " + context.state);
+        setBeepAudioContext(context);
       } catch (error) {
-        console.error("Error initializing audio:", error);
+        setDebugInfo(prev => prev + "\nError initializing beep audio: " + (error instanceof Error ? error.message : "Unknown error"));
       }
     };
 
-    initAudio();
+    initBeepAudio();
   }, []);
 
-  const playBeep = () => {
-    if (!audioContext) return;
-    
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // 440 Hz = A4 note
-    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Set volume to 10%
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.start();
-    setIsPlaying(true);
-
-    // Stop after 1 second
-    setTimeout(() => {
-      oscillator.stop();
-      setIsPlaying(false);
-    }, 1000);
-  };
-
-  // Initialize Vapi client
+  // Initialize Vapi client with its own audio context
   useEffect(() => {
     const initVapi = async () => {
       try {
         // @ts-expect-error - webkitAudioContext is supported in some browsers
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const context = new AudioContext();
-        setDebugInfo(prev => prev + "\nAudioContext: " + context.state);
+        setDebugInfo(prev => prev + "\nVapi AudioContext: " + context.state);
+        setVapiAudioContext(context);
         
         const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY || "");
         setDebugInfo(prev => prev + "\nVapi: initialized");
         setVapiClient(vapi);
-        
-        // Force audio context to be ready
-        if (context.state === "suspended") {
-          await context.resume();
-          setDebugInfo(prev => prev + "\nAudioContext: resumed");
-        }
       } catch (error) {
-        setDebugInfo(prev => prev + "\nError: " + (error instanceof Error ? error.message : "Unknown error"));
+        setDebugInfo(prev => prev + "\nError initializing Vapi: " + (error instanceof Error ? error.message : "Unknown error"));
       }
     };
 
     initVapi();
   }, []);
+
+  const playBeep = () => {
+    if (!beepAudioContext) return;
+    
+    const oscillator = beepAudioContext.createOscillator();
+    const gainNode = beepAudioContext.createGain();
+
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(440, beepAudioContext.currentTime);
+    gainNode.gain.setValueAtTime(0.1, beepAudioContext.currentTime);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(beepAudioContext.destination);
+
+    oscillator.start();
+    setIsPlaying(true);
+
+    setTimeout(() => {
+      oscillator.stop();
+      setIsPlaying(false);
+    }, 1000);
+  };
 
   const handleLogoClick = async () => {
     try {
@@ -137,29 +133,32 @@ export default function App() {
         return;
       }
 
-      setDebugInfo(prev => prev + "\nAudioContext: " + (audioContext?.state || "null"));
+      setDebugInfo(prev => prev + "\nVapi AudioContext: " + (vapiAudioContext?.state || "null"));
+      setDebugInfo(prev => prev + "\nBeep AudioContext: " + (beepAudioContext?.state || "null"));
 
-      // Resume audio context on user interaction (required for mobile)
-      if (audioContext) {
-        if (audioContext.state === "suspended") {
-          await audioContext.resume();
-          setDebugInfo(prev => prev + "\nAudioContext: resumed");
-        }
+      // Resume Vapi audio context
+      if (vapiAudioContext) {
+        await vapiAudioContext.resume();
+        setDebugInfo(prev => prev + "\nVapi AudioContext: resumed");
+      }
+
+      // Resume beep audio context
+      if (beepAudioContext) {
+        await beepAudioContext.resume();
+        setDebugInfo(prev => prev + "\nBeep AudioContext: resumed");
       }
 
       if (isCalling) {
         setDebugInfo(prev => prev + "\nStopping call...");
-        // Stop the call
         await vapiClient.stop();
         setDebugInfo(prev => prev + "\nCall stopped");
       } else {
         setDebugInfo(prev => prev + "\nStarting call...");
-        // Start the call
         await vapiClient.start("f169e7e7-3c14-4f10-adfa-1efe00219990");
         setDebugInfo(prev => prev + "\nCall started");
       }
 
-      playBeep(); // Play beep sound when toggling call state
+      playBeep();
       setIsCalling(!isCalling);
       setIsAnimating(!isAnimating);
     } catch (error) {
