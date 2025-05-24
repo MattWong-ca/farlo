@@ -126,18 +126,18 @@ export default function App() {
         On mobile? Click here for sound →
       </a>
 
-      <div className="w-full max-w-md mx-auto px-4 py-3">
-        <header className="flex justify-between items-center mb-3 h-11">
+      <div className="w-full max-w-md mx-auto px-4 py-2">
+        <header className="flex justify-between items-center h-11">
           <div>
-            <p className="text-2xl"></p>
+            <p></p>
           </div>
           <div>{saveFrameButton}</div>
         </header>
 
-        <main className="flex-1 flex flex-col items-center justify-center">
-          <h1 className="text-4xl font-bold text-center mb-16">Meet Farlo 🛰️</h1>
+        <main className="flex-1 flex flex-col items-center justify-start">
+          <h1 className="text-4xl font-bold text-center mb-10">Meet Farlo 🛰️</h1>
 
-          <div className="relative w-48 h-48">
+          <div className="relative w-40 h-40">
             <div 
               className="absolute inset-0 rounded-full z-0"
             >
@@ -151,25 +151,25 @@ export default function App() {
             </div>
             {isCalling && isAnimating && (
               <>
-                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping opacity-75 z-[-1]"></div>
-                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping animation-delay-1000 opacity-50 z-[-1]"></div>
-                <div className="absolute inset-0 rounded-full border-4 border-[var(--app-accent)] animate-ping animation-delay-2000 opacity-25 z-[-1]"></div>
+                <div className="absolute inset-2 rounded-full border-4 border-[var(--app-accent)] animate-ping opacity-75 z-[-1]"></div>
+                <div className="absolute inset-2 rounded-full border-4 border-[var(--app-accent)] animate-ping animation-delay-1000 opacity-50 z-[-1]"></div>
+                <div className="absolute inset-2 rounded-full border-4 border-[var(--app-accent)] animate-ping animation-delay-2000 opacity-25 z-[-1]"></div>
               </>
             )}
           </div>
 
-          <div className="w-[70%] mt-16 space-y-2">
+          <div className="w-[70%] mt-14 space-y-2">
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={handleLogoClick}
-                className="h-12 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 border text-white bg-purple-600"
+                className="h-10 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 border text-white bg-purple-600"
               >
                 <Icon name={"play"} size="sm" />
                 <p className="text-base font-semibold">{'Start Call'}</p>
               </button>
               <button
                 onClick={handleLogoClick}
-                className="h-12 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 border bg-white hover:bg-gray-50 text-gray-900 border-gray-200"
+                className="h-10 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 border bg-white hover:bg-gray-50 text-gray-900 border-gray-200"
               >
                 <Icon name={"stop"} size="sm" />
                 <p className="text-base font-semibold">{'End Call'}</p>
@@ -183,7 +183,7 @@ export default function App() {
                   "_blank"
                 );
               }}
-              className="w-full h-12 rounded-lg bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full h-10 rounded-lg bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 transition-all duration-300 flex items-center justify-center gap-2"
             >
               <Icon name="star" size="sm" />
               <p className="text-base font-semibold">Explore Channels</p>
@@ -196,7 +196,7 @@ export default function App() {
                   "_blank"
                 );
               }}
-              className="w-full h-12 rounded-lg bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full h-10 rounded-lg bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 transition-all duration-300 flex items-center justify-center gap-2"
             >
               <Icon name="person" size="sm" />
               <p className="text-base font-semibold">Follow Creators</p>
@@ -223,7 +223,7 @@ export default function App() {
                 "_blank"
               );
             }}
-            className="mt-8 h-12 px-4 bg-white text-gray-900 rounded-full hover:bg-gray-50 transition-all duration-300 flex items-center gap-2 border border-gray-200"
+            className="mt-8 h-10 px-4 bg-white text-gray-900 rounded-full hover:bg-gray-50 transition-all duration-300 flex items-center gap-2 border border-gray-200"
           >
             <p className="text-base font-semibold">Share experience</p>
             <Icon name="arrow-right" size="sm" />
