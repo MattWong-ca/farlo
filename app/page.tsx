@@ -223,7 +223,7 @@ export default function App() {
             </button> */}
           </div>
 
-          <button
+          {/* <button
             onClick={async () => {
               await sdk.actions.composeCast({ 
                 text: "Just met Farlo, who introduced me to Farcaster!\n\nAsk him for new channel + follow recs:",
@@ -234,6 +234,17 @@ export default function App() {
           >
             <p className="text-base font-semibold">Share experience</p>
             <Icon name="arrow-right" size="sm" />
+          </button> */}
+
+          <button
+            onClick={() => {
+              console.log('User FID:', context?.user?.fid);
+              console.log('User PFP:', context?.user?.pfpUrl);
+            }}
+            className="mt-4 h-10 px-4 bg-white text-gray-900 rounded-full hover:bg-gray-50 transition-all duration-300 flex items-center gap-2 border border-gray-200"
+          >
+            <p className="text-base font-semibold">Log User Info</p>
+            <Icon name="person" size="sm" />
           </button>
         </main>
 
