@@ -105,15 +105,25 @@ export default function App() {
 
   // Initialize Vapi client
   useEffect(() => {
-    const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY || "");
-    setVapiClient(vapi);
-
-    // Cleanup function
-    return () => {
-      if (vapi) {
-        vapi.stop();
+    const initVapi = async () => {
+      try {
+        // @ts-expect-error - webkitAudioContext is supported in some browsers
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const context = new AudioContext();
+        
+        const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY || "");
+        setVapiClient(vapi);
+        
+        // Force audio context to be ready
+        if (context.state === "suspended") {
+          await context.resume();
+        }
+      } catch (error) {
+        console.error("Error initializing Vapi:", error);
       }
     };
+
+    initVapi();
   }, []);
 
   const handleLogoClick = async () => {
@@ -125,11 +135,8 @@ export default function App() {
 
       // Resume audio context on user interaction (required for mobile)
       if (audioContext) {
-        // Force the audio context to be running
-        if (audioContext.state !== "running") {
+        if (audioContext.state === "suspended") {
           await audioContext.resume();
-          // Add a small delay to ensure the context is fully resumed
-          await new Promise(resolve => setTimeout(resolve, 100));
         }
       }
 
