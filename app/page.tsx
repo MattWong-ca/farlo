@@ -8,6 +8,7 @@ import {
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { Button } from "./components/DemoComponents";
 import { Icon } from "./components/DemoComponents";
+import sdk from '@farcaster/frame-sdk';
 import Image from "next/image";
 import Vapi from "@vapi-ai/web";
 
@@ -179,11 +180,12 @@ export default function App() {
             </div>
 
             <button
-              onClick={() => {
-                window.open(
-                  "https://farcaster.xyz/~/explore/channels",
-                  "_blank"
-                );
+              onClick={async () => {
+                await sdk.actions.openUrl("https://farcaster.xyz/~/explore/channels");
+                // window.open(
+                //   "https://farcaster.xyz/~/explore/channels",
+                //   "_blank"
+                // );
               }}
               className="w-full h-10 rounded-lg bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 transition-all duration-300 flex items-center justify-center gap-2"
             >
