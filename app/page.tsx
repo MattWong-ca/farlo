@@ -18,18 +18,9 @@ export default function App() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [vapiClient, setVapiClient] = useState<Vapi | null>(null);
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
-  const [isFarcasterMobile, setIsFarcasterMobile] = useState(false);
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
-
-  // Detect Farcaster mobile
-  useEffect(() => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isFarcaster = userAgent.includes('farcaster');
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(userAgent);
-    setIsFarcasterMobile(isFarcaster && isMobile);
-  }, []);
 
   // This is a hook that is used to set the Mini App is in a  ready state
   useEffect(() => {
@@ -136,21 +127,6 @@ export default function App() {
 
         <main className="flex-1 flex flex-col items-center justify-center">
           <h1 className="text-4xl font-bold text-center mb-16">Meet Farlo 🛰️</h1>
-
-          {isFarcasterMobile && (
-            <div className="mb-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center">
-              <p className="text-yellow-800 mb-2">Voice chat isn&apos;t supported in the Farcaster mobile app.</p>
-              <a 
-                href="https://test-mini-app-phi.vercel.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-purple-600 hover:text-purple-700 font-semibold"
-              >
-                Open in Safari to try voice chat →
-              </a>
-            </div>
-          )}
-
           <div className="relative w-48 h-48">
             <div 
               className="absolute inset-0 rounded-full z-0"
@@ -216,7 +192,7 @@ export default function App() {
               <p className="text-base font-semibold">Follow Creators</p>
             </button>
 
-            <button
+            {/* <button
               onClick={() => {
                 window.open(
                   "https://warpcast.com/~/compose?text=Just%20met%20Farlo%2C%20who%20introduced%20me%20to%20Farcaster!%0A%0AAsk%20him%20for%20new%20channel%20%2B%20follow%20recs%3A&embeds[]=https://test-mini-app-phi.vercel.app",
@@ -227,7 +203,7 @@ export default function App() {
             >
               <Icon name="pencil" size="sm" />
               <p className="text-base font-semibold">Make Your First Cast</p>
-            </button>
+            </button> */}
           </div>
 
           <button
