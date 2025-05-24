@@ -188,7 +188,7 @@ export default function App() {
               <p className="text-base font-semibold">Explore Channels</p>
             </button>
 
-            <button
+            {/* <button
               onClick={async () => {
                 await sdk.actions.openUrl("https://farcaster.xyz/~/explore/users");
               }}
@@ -196,7 +196,7 @@ export default function App() {
             >
               <Icon name="person" size="sm" />
               <p className="text-base font-semibold">Follow Creators</p>
-            </button>
+            </button> */}
 
             {/* <button
               onClick={() => {
