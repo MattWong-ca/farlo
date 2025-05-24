@@ -17,9 +17,7 @@ export default function App() {
   const [isCalling, setIsCalling] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [vapiClient, setVapiClient] = useState<Vapi | null>(null);
-  const [beepAudioContext, setBeepAudioContext] = useState<AudioContext | null>(null);
-  const [, setIsPlaying] = useState(false);
-  const [debugInfo, setDebugInfo] = useState<string>("");
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -65,21 +63,20 @@ export default function App() {
     return null;
   }, [context, frameAdded, handleAddFrame]);
 
-  // Initialize beep audio context
+  // Initialize audio context
   useEffect(() => {
-    const initBeepAudio = async () => {
+    const initAudio = async () => {
       try {
         // @ts-expect-error - webkitAudioContext is supported in some browsers
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const context = new AudioContext();
-        setDebugInfo(prev => prev + "\nBeep AudioContext: " + context.state);
-        setBeepAudioContext(context);
+        setAudioContext(context);
       } catch (error) {
-        setDebugInfo(prev => prev + "\nError initializing beep audio: " + (error instanceof Error ? error.message : "Unknown error"));
+        console.error("Error initializing audio:", error);
       }
     };
 
-    initBeepAudio();
+    initAudio();
   }, []);
 
   // Initialize Vapi client
@@ -87,68 +84,34 @@ export default function App() {
     const initVapi = async () => {
       try {
         const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY || "");
-        setDebugInfo(prev => prev + "\nVapi: initialized");
         setVapiClient(vapi);
       } catch (error) {
-        setDebugInfo(prev => prev + "\nError initializing Vapi: " + (error instanceof Error ? error.message : "Unknown error"));
+        console.error("Error initializing Vapi:", error);
       }
     };
 
     initVapi();
   }, []);
 
-  const playBeep = () => {
-    if (!beepAudioContext) return;
-    
-    const oscillator = beepAudioContext.createOscillator();
-    const gainNode = beepAudioContext.createGain();
-
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(440, beepAudioContext.currentTime);
-    gainNode.gain.setValueAtTime(0.1, beepAudioContext.currentTime);
-
-    oscillator.connect(gainNode);
-    gainNode.connect(beepAudioContext.destination);
-
-    oscillator.start();
-    setIsPlaying(true);
-
-    setTimeout(() => {
-      oscillator.stop();
-      setIsPlaying(false);
-    }, 1000);
-  };
-
   const handleLogoClick = async () => {
     try {
-      if (!vapiClient) {
-        setDebugInfo(prev => prev + "\nError: Vapi not initialized");
-        return;
-      }
+      if (!vapiClient) return;
 
-      setDebugInfo(prev => prev + "\nBeep AudioContext: " + (beepAudioContext?.state || "null"));
-
-      // Resume beep audio context
-      if (beepAudioContext) {
-        await beepAudioContext.resume();
-        setDebugInfo(prev => prev + "\nBeep AudioContext: resumed");
+      // Resume audio context on user interaction
+      if (audioContext) {
+        await audioContext.resume();
       }
 
       if (isCalling) {
-        setDebugInfo(prev => prev + "\nStopping call...");
         await vapiClient.stop();
-        setDebugInfo(prev => prev + "\nCall stopped");
       } else {
-        setDebugInfo(prev => prev + "\nStarting call...");
         await vapiClient.start("f169e7e7-3c14-4f10-adfa-1efe00219990");
-        setDebugInfo(prev => prev + "\nCall started");
       }
 
-      playBeep();
       setIsCalling(!isCalling);
       setIsAnimating(!isAnimating);
     } catch (error) {
-      setDebugInfo(prev => prev + "\nError: " + (error instanceof Error ? error.message : "Unknown error"));
+      console.error("Error handling call:", error);
     }
   };
 
@@ -164,11 +127,6 @@ export default function App() {
 
         <main className="flex-1 flex flex-col items-center justify-center">
           <h1 className="text-4xl font-bold text-center mb-16">Meet Farlo 🛰️</h1>
-          
-          {/* Debug info display */}
-          <div className="fixed top-20 left-0 right-0 bg-black/80 text-white p-2 text-xs font-mono whitespace-pre-wrap max-h-40 overflow-y-auto">
-            {debugInfo}
-          </div>
 
           <div className="relative w-48 h-48">
             <div 
