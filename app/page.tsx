@@ -19,6 +19,7 @@ export default function App() {
   const [vapiClient, setVapiClient] = useState<Vapi | null>(null);
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [, setIsPlaying] = useState(false);
+  const [debugInfo, setDebugInfo] = useState<string>("");
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -110,16 +111,19 @@ export default function App() {
         // @ts-expect-error - webkitAudioContext is supported in some browsers
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const context = new AudioContext();
+        setDebugInfo(prev => prev + "\nAudioContext: " + context.state);
         
         const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY || "");
+        setDebugInfo(prev => prev + "\nVapi: initialized");
         setVapiClient(vapi);
         
         // Force audio context to be ready
         if (context.state === "suspended") {
           await context.resume();
+          setDebugInfo(prev => prev + "\nAudioContext: resumed");
         }
       } catch (error) {
-        console.error("Error initializing Vapi:", error);
+        setDebugInfo(prev => prev + "\nError: " + (error instanceof Error ? error.message : "Unknown error"));
       }
     };
 
@@ -129,30 +133,37 @@ export default function App() {
   const handleLogoClick = async () => {
     try {
       if (!vapiClient) {
-        console.error("Vapi client not initialized");
+        setDebugInfo(prev => prev + "\nError: Vapi not initialized");
         return;
       }
+
+      setDebugInfo(prev => prev + "\nAudioContext: " + (audioContext?.state || "null"));
 
       // Resume audio context on user interaction (required for mobile)
       if (audioContext) {
         if (audioContext.state === "suspended") {
           await audioContext.resume();
+          setDebugInfo(prev => prev + "\nAudioContext: resumed");
         }
       }
 
       if (isCalling) {
+        setDebugInfo(prev => prev + "\nStopping call...");
         // Stop the call
         await vapiClient.stop();
+        setDebugInfo(prev => prev + "\nCall stopped");
       } else {
+        setDebugInfo(prev => prev + "\nStarting call...");
         // Start the call
         await vapiClient.start("f169e7e7-3c14-4f10-adfa-1efe00219990");
+        setDebugInfo(prev => prev + "\nCall started");
       }
 
       playBeep(); // Play beep sound when toggling call state
       setIsCalling(!isCalling);
       setIsAnimating(!isAnimating);
     } catch (error) {
-      console.error("Error handling Vapi call:", error);
+      setDebugInfo(prev => prev + "\nError: " + (error instanceof Error ? error.message : "Unknown error"));
     }
   };
 
@@ -169,6 +180,11 @@ export default function App() {
         <main className="flex-1 flex flex-col items-center justify-center">
           <h1 className="text-4xl font-bold text-center mb-16">Meet Farlo 🛰️</h1>
           
+          {/* Debug info display */}
+          <div className="fixed top-20 left-0 right-0 bg-black/80 text-white p-2 text-xs font-mono whitespace-pre-wrap max-h-40 overflow-y-auto">
+            {debugInfo}
+          </div>
+
           <div className="relative w-48 h-48">
             <div 
               className="absolute inset-0 rounded-full z-0"
