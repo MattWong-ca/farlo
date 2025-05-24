@@ -19,6 +19,8 @@ export default function App() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [vapiClient, setVapiClient] = useState<Vapi | null>(null);
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [callResult, setCallResult] = useState<any>(null);
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -94,6 +96,13 @@ export default function App() {
     initVapi();
   }, []);
 
+  // Log call result when it changes
+  useEffect(() => {
+    if (callResult) {
+      console.log('Call result:', callResult);
+    }
+  }, [callResult]);
+
   const handleLogoClick = async () => {
     try {
       if (!vapiClient) return;
@@ -105,8 +114,10 @@ export default function App() {
 
       if (isCalling) {
         await vapiClient.stop();
+        console.log('Call result:', callResult);
       } else {
-        await vapiClient.start("f169e7e7-3c14-4f10-adfa-1efe00219990");
+        const result = await vapiClient.start("f169e7e7-3c14-4f10-adfa-1efe00219990");
+        setCallResult(result);
       }
 
       setIsCalling(!isCalling);
