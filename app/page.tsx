@@ -18,7 +18,6 @@ export default function App() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [vapiClient, setVapiClient] = useState<Vapi | null>(null);
   const [beepAudioContext, setBeepAudioContext] = useState<AudioContext | null>(null);
-  const [vapiAudioContext, setVapiAudioContext] = useState<AudioContext | null>(null);
   const [, setIsPlaying] = useState(false);
   const [debugInfo, setDebugInfo] = useState<string>("");
 
@@ -83,16 +82,10 @@ export default function App() {
     initBeepAudio();
   }, []);
 
-  // Initialize Vapi client with its own audio context
+  // Initialize Vapi client
   useEffect(() => {
     const initVapi = async () => {
       try {
-        // @ts-expect-error - webkitAudioContext is supported in some browsers
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        const context = new AudioContext();
-        setDebugInfo(prev => prev + "\nVapi AudioContext: " + context.state);
-        setVapiAudioContext(context);
-        
         const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY || "");
         setDebugInfo(prev => prev + "\nVapi: initialized");
         setVapiClient(vapi);
@@ -133,14 +126,7 @@ export default function App() {
         return;
       }
 
-      setDebugInfo(prev => prev + "\nVapi AudioContext: " + (vapiAudioContext?.state || "null"));
       setDebugInfo(prev => prev + "\nBeep AudioContext: " + (beepAudioContext?.state || "null"));
-
-      // Resume Vapi audio context
-      if (vapiAudioContext) {
-        await vapiAudioContext.resume();
-        setDebugInfo(prev => prev + "\nVapi AudioContext: resumed");
-      }
 
       // Resume beep audio context
       if (beepAudioContext) {
