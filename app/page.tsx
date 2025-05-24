@@ -124,8 +124,13 @@ export default function App() {
       }
 
       // Resume audio context on user interaction (required for mobile)
-      if (audioContext && audioContext.state === "suspended") {
-        await audioContext.resume();
+      if (audioContext) {
+        // Force the audio context to be running
+        if (audioContext.state !== "running") {
+          await audioContext.resume();
+          // Add a small delay to ensure the context is fully resumed
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
       }
 
       if (isCalling) {
