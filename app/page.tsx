@@ -181,7 +181,7 @@ export default function App() {
             <button
               onClick={() => {
                 window.open(
-                  "https://warpcast.com/~/explore/channels",
+                  "https://farcaster.xyz/~/explore/channels",
                   "_blank"
                 );
               }}
@@ -194,7 +194,7 @@ export default function App() {
             <button
               onClick={() => {
                 window.open(
-                  "https://warpcast.com/~/explore/users",
+                  "https://farcaster.xyz/~/explore/users",
                   "_blank"
                 );
               }}
@@ -221,7 +221,7 @@ export default function App() {
           <button
             onClick={() => {
               window.open(
-                "https://warpcast.com/~/compose?text=Just%20met%20Farlo%2C%20who%20introduced%20me%20to%20Farcaster!%0A%0AAsk%20him%20for%20new%20channel%20%2B%20follow%20recs%3A&embeds[]=https://test-mini-app-phi.vercel.app",
+                "https://farcaster.xyz/~/compose?text=Just%20met%20Farlo%2C%20who%20introduced%20me%20to%20Farcaster!%0A%0AAsk%20him%20for%20new%20channel%20%2B%20follow%20recs%3A&embeds[]=https://test-mini-app-phi.vercel.app",
                 "_blank"
               );
             }}
