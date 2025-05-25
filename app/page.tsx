@@ -22,6 +22,10 @@ export default function App() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [callResult, setCallResult] = useState<any>(null);
   const [displayName, setDisplayName] = useState<string>("");
+  const [fid, setFid] = useState<number | null>(null);
+  const [username, setUsername] = useState<string>("");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [location, setLocation] = useState<any>(null);
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -104,13 +108,27 @@ export default function App() {
     }
   }, [callResult]);
 
-  // Store user's display name when context changes
+  // Store user info when context changes
   useEffect(() => {
-    if (context?.user?.displayName) {
-      setDisplayName(context.user.displayName);
-      console.log('User display name:', context.user.displayName);
+    if (context?.user) {
+      if (context.user.displayName) {
+        setDisplayName(context.user.displayName);
+        console.log('User display name:', context.user.displayName);
+      }
+      if (context.user.fid) {
+        setFid(context.user.fid);
+        console.log('User FID:', context.user.fid);
+      }
+      if (context.user.username) {
+        setUsername(context.user.username);
+        console.log('User username:', context.user.username);
+      }
+      if (context.user.location) {
+        setLocation(context.user.location);
+        console.log('User location:', context.user.location);
+      }
     }
-  }, [context?.user?.displayName]);
+  }, [context?.user]);
 
   const handleLogoClick = async () => {
     try {
@@ -124,6 +142,9 @@ export default function App() {
       if (isCalling) {
         await vapiClient.stop();
         console.log('Call result:', callResult);
+        console.log('User FID:', fid);
+        console.log('User username:', username);
+        console.log('User location:', location);
       } else {
         const result = await vapiClient.start(
           "f169e7e7-3c14-4f10-adfa-1efe00219990",
@@ -256,6 +277,8 @@ export default function App() {
             onClick={() => {
               console.log('User FID:', context?.user?.fid);
               console.log('User PFP:', context?.user?.pfpUrl);
+              console.log('User username:', context?.user?.username);
+              console.log('User location:', context?.user?.location);
             }}
             className="mt-4 h-10 px-4 bg-white text-gray-900 rounded-full hover:bg-gray-50 transition-all duration-300 flex items-center gap-2 border border-gray-200"
           >
