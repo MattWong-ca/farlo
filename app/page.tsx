@@ -21,6 +21,7 @@ export default function App() {
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [callResult, setCallResult] = useState<any>(null);
+  const [displayName, setDisplayName] = useState<string>("");
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -103,6 +104,14 @@ export default function App() {
     }
   }, [callResult]);
 
+  // Store user's display name when context changes
+  useEffect(() => {
+    if (context?.user?.displayName) {
+      setDisplayName(context.user.displayName);
+      console.log('User display name:', context.user.displayName);
+    }
+  }, [context?.user?.displayName]);
+
   const handleLogoClick = async () => {
     try {
       if (!vapiClient) return;
@@ -116,7 +125,14 @@ export default function App() {
         await vapiClient.stop();
         console.log('Call result:', callResult);
       } else {
-        const result = await vapiClient.start("f169e7e7-3c14-4f10-adfa-1efe00219990");
+        const result = await vapiClient.start(
+          "f169e7e7-3c14-4f10-adfa-1efe00219990",
+          {
+            firstMessage: displayName ? `Hey ${displayName}! I'm Farlo, your personal onboarding buddy for Farcaster. Would you like me to give a quick intro?` : "Hey! I'm Farlo, your personal onboarding buddy for Farcaster. Would you like me to give a quick intro?",
+            clientMessages: [],
+            serverMessages: []
+          }
+        );
         setCallResult(result);
       }
 
