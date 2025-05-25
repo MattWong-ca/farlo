@@ -24,8 +24,7 @@ export default function App() {
   const [displayName, setDisplayName] = useState<string>("");
   const [fid, setFid] = useState<number | null>(null);
   const [username, setUsername] = useState<string>("");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [location, setLocation] = useState<any>(null);
+  const [location, setLocation] = useState<string>("");
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -124,8 +123,8 @@ export default function App() {
         console.log('User username:', context.user.username);
       }
       if (context.user.location) {
-        setLocation(context.user.location);
-        console.log('User location:', context.user.location);
+        setLocation(context.user.location.description);
+        console.log('User location:', context.user.location.description);
       }
     }
   }, [context?.user]);
@@ -278,7 +277,7 @@ export default function App() {
               console.log('User FID:', context?.user?.fid);
               console.log('User PFP:', context?.user?.pfpUrl);
               console.log('User username:', context?.user?.username);
-              console.log('User location:', context?.user?.location);
+              console.log('User location:', context?.user?.location?.description);
             }}
             className="mt-4 h-10 px-4 bg-white text-gray-900 rounded-full hover:bg-gray-50 transition-all duration-300 flex items-center gap-2 border border-gray-200"
           >
