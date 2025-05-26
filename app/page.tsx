@@ -147,22 +147,27 @@ export default function App() {
 
       if (isCalling) {
         await vapiClient.stop();
+        setIsCalling(false);
+        setIsAnimating(false);
         console.log('Call result:', callResult);
 
         // Send data to API route
         try {
+          const payload = {
+            fid,
+            username,
+            displayName,
+            location,
+            callId: callResult?.id
+          };
+          console.log('Sending payload:', payload);
+
           const response = await fetch('/api/call', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              fid,
-              username,
-              displayName,
-              location,
-              callId: callResult.id
-            }),
+            body: JSON.stringify(payload),
           });
 
           console.log('API response status:', response.status);
@@ -186,10 +191,10 @@ export default function App() {
           }
         );
         setCallResult(result);
+        setIsCalling(true);
+        setIsAnimating(true);
       }
 
-      setIsCalling(!isCalling);
-      setIsAnimating(!isAnimating);
     } catch (error) {
       console.error("Error handling call:", error);
     }
