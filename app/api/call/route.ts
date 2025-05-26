@@ -102,7 +102,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to store call data' }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ 
+      success: true,
+      summary: summaryData.summary 
+    });
   } catch (error) {
     console.error('Error in call API route:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
