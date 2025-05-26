@@ -11,6 +11,13 @@ import { Icon } from "./components/DemoComponents";
 import sdk from '@farcaster/frame-sdk';
 import Image from "next/image";
 import Vapi from "@vapi-ai/web";
+// import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+// const supabase = createClient(
+//   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+// );
 
 export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
@@ -139,11 +146,36 @@ export default function App() {
       }
 
       if (isCalling) {
-        await vapiClient.stop();
-        console.log('Call result:', callResult);
+        const result = await vapiClient.stop();
+        console.log('Call result:', result);
         console.log('User FID:', fid);
         console.log('User username:', username);
         console.log('User location:', location);
+
+        // Send data to API route
+        // try {
+        //   const response = await fetch('/api/call', {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //       fid,
+        //       username,
+        //       displayName,
+        //       location,
+        //       // callId: result?.id,
+        //       // summary: result?.summary
+        //     }),
+        //   });
+
+        //   if (!response.ok) {
+        //     console.error('Failed to store call data');
+        //   }
+        // } catch (error) {
+        //   console.error('Error sending call data:', error);
+        // }
+
       } else {
         const result = await vapiClient.start(
           "f169e7e7-3c14-4f10-adfa-1efe00219990",
