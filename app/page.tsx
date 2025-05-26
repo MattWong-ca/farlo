@@ -146,11 +146,8 @@ export default function App() {
       }
 
       if (isCalling) {
-        const result = (await vapiClient.stop()) as unknown as { id?: string; summary?: string };
-        console.log('Call result:', result);
-        console.log('User FID:', fid);
-        console.log('User username:', username);
-        console.log('User location:', location);
+        await vapiClient.stop();
+        console.log('Call result:', callResult);
 
         // Send data to API route
         try {
@@ -164,16 +161,19 @@ export default function App() {
               username,
               displayName,
               location,
-              callId: result?.id,
-              summary: result?.summary
+              callId: callResult.id
             }),
           });
+
+          console.log('API response status:', response.status);
+          const apiResult = await response.json();
+          console.log('API response:', apiResult);
 
           if (!response.ok) {
             console.error('Failed to store call data');
           }
         } catch (error) {
-          console.error('Error sending call data:', error);
+          console.error('Error in API calls:', error);
         }
 
       } else {
@@ -197,7 +197,7 @@ export default function App() {
 
   return (
     <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] mini-app-theme from-[var(--app-background)] to-[var(--app-gray)]">
-      <a 
+      {/* <a 
         onClick={async () => {
           await sdk.actions.openUrl("https://test-mini-app-phi.vercel.app");
         }}
@@ -205,7 +205,7 @@ export default function App() {
         className="block w-full p-2 text-center text-sm text-purple-600 hover:text-purple-700 font-medium bg-purple-50 border-b border-purple-100 cursor-pointer"
       >
         On mobile? Click here for sound →
-      </a>
+      </a> */}
 
       <div className="w-full max-w-md mx-auto px-4 py-2">
         <header className="flex justify-between items-center h-11">
