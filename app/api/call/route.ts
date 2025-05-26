@@ -10,7 +10,6 @@ const supabase = createClient(
 export async function POST(request: Request) {
   try {
     const { fid, username, displayName, location, callId, summary } = await request.json();
-
     // Store user data in users table
     const { error: userError } = await supabase
       .from('users')
