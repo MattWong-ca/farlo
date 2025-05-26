@@ -146,35 +146,35 @@ export default function App() {
       }
 
       if (isCalling) {
-        const result = await vapiClient.stop();
+        const result = (await vapiClient.stop()) as unknown as { id?: string; summary?: string };
         console.log('Call result:', result);
         console.log('User FID:', fid);
         console.log('User username:', username);
         console.log('User location:', location);
 
         // Send data to API route
-        // try {
-        //   const response = await fetch('/api/call', {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //       fid,
-        //       username,
-        //       displayName,
-        //       location,
-        //       // callId: result?.id,
-        //       // summary: result?.summary
-        //     }),
-        //   });
+        try {
+          const response = await fetch('/api/call', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              fid,
+              username,
+              displayName,
+              location,
+              callId: result?.id,
+              summary: result?.summary
+            }),
+          });
 
-        //   if (!response.ok) {
-        //     console.error('Failed to store call data');
-        //   }
-        // } catch (error) {
-        //   console.error('Error sending call data:', error);
-        // }
+          if (!response.ok) {
+            console.error('Failed to store call data');
+          }
+        } catch (error) {
+          console.error('Error sending call data:', error);
+        }
 
       } else {
         const result = await vapiClient.start(
