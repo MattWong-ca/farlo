@@ -177,24 +177,28 @@ export default function App() {
           if (!response.ok) {
             console.error('Failed to store call data');
           } else {
-            // Send DM after call data is stored
-            try {
-              const dmResponse = await fetch('/api/dm', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  fid,
-                  summary: apiResult.summary
-                }),
-              });
+            // Only send DM if we have a summary
+            if (apiResult.summary && apiResult.summary.trim() !== '') {
+              try {
+                const dmResponse = await fetch('/api/dm', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    fid,
+                    summary: apiResult.summary
+                  }),
+                });
 
-              if (!dmResponse.ok) {
-                console.error('Failed to send DM');
+                if (!dmResponse.ok) {
+                  console.error('Failed to send DM');
+                }
+              } catch (error) {
+                console.error('Error sending DM:', error);
               }
-            } catch (error) {
-              console.error('Error sending DM:', error);
+            } else {
+              console.log('No summary available, skipping DM');
             }
           }
         } catch (error) {
