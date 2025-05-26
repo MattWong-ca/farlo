@@ -15,11 +15,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
     }
 
+    // Sanitize API key by removing any non-printable characters
+    const apiKey = process.env.WARPCAST_API_KEY.replace(/[^\x20-\x7E]/g, '');
+    console.log('API Key length:', apiKey.length);
+
     try {
       const response = await fetch('https://api.warpcast.com/v2/ext-send-direct-cast', {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${process.env.WARPCAST_API_KEY}`,
+          'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
