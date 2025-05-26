@@ -28,7 +28,7 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
           recipientFid: fid,
-          message: 'nice to meet you!',
+          message: summary,
           idempotencyKey: uuidv4()
         })
       });

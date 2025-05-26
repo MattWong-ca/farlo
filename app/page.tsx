@@ -282,7 +282,25 @@ export default function App() {
               </button>
             </div>
 
-            <button
+            <div style={{ fontSize: '16px', paddingTop: '18px' }} className="mt-4 text-md space-y-1">
+              <p style={{ fontSize: '16px', fontWeight: 'bold' }}>Start a call with Farlo to:</p>
+              <div className="ml-4 space-y-1">
+                <div className="flex items-center gap-1">
+                  <span>🚀</span>
+                  <span>learn about Farcaster</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span>👤</span>
+                  <span>get personalized follow recs</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span>🤝</span>
+                  <span>get intros to new people!</span>
+                </div>
+              </div>
+            </div>
+
+            {/* <button
               onClick={async () => {
                 await sdk.actions.openUrl("https://farcaster.xyz/~/explore/channels");
               }}
@@ -290,7 +308,7 @@ export default function App() {
             >
               <Icon name="star" size="sm" />
               <p className="text-base font-semibold">Explore Channels</p>
-            </button>
+            </button> */}
 
             {/* <button
               onClick={async () => {
@@ -316,20 +334,20 @@ export default function App() {
             </button> */}
           </div>
 
-          {/* <button
+          <button
             onClick={async () => {
               await sdk.actions.composeCast({ 
                 text: "Just met Farlo, who introduced me to Farcaster!\n\nAsk him for new channel + follow recs:",
-                embeds: ["https://test-mini-app-phi.vercel.app"],
+                embeds: ["https://farlo.vercel.app"],
               });
             }}
             className="mt-8 h-10 px-4 bg-white text-gray-900 rounded-full hover:bg-gray-50 transition-all duration-300 flex items-center gap-2 border border-gray-200"
           >
             <p className="text-base font-semibold">Share experience</p>
             <Icon name="arrow-right" size="sm" />
-          </button> */}
+          </button>
 
-          <button
+          {/* <button
             onClick={() => {
               console.log('User FID:', context?.user?.fid);
               console.log('User PFP:', context?.user?.pfpUrl);
@@ -340,7 +358,7 @@ export default function App() {
           >
             <p className="text-base font-semibold">Log User Info</p>
             <Icon name="person" size="sm" />
-          </button>
+          </button> */}
         </main>
 
         <footer className="fixed bottom-0 left-0 right-0 bg-[var(--app-background)] border-t border-[var(--app-gray)] py-4 flex justify-center">
