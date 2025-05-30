@@ -11,13 +11,27 @@ import { Icon } from "./components/DemoComponents";
 import sdk from '@farcaster/frame-sdk';
 import Image from "next/image";
 import Vapi from "@vapi-ai/web";
-// import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
+
+// interface CallResult {
+//   id: string;
+//   status?: string;
+//   // Add other properties as needed
+// }
+
+interface CallHistory {
+  id: string;
+  fid: number;
+  summary: string;
+  created_at: string;
+  // Add other properties as needed
+}
 
 // Initialize Supabase client
-// const supabase = createClient(
-//   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-// );
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+);
 
 export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
@@ -32,6 +46,8 @@ export default function App() {
   const [fid, setFid] = useState<number | null>(null);
   const [username, setUsername] = useState<string>("");
   const [location, setLocation] = useState<string>("");
+  const [userCallHistory, setUserCallHistory] = useState<CallHistory[]>([]);
+  const [isExistingUser, setIsExistingUser] = useState(false);
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -136,6 +152,49 @@ export default function App() {
     }
   }, [context?.user]);
 
+  // Check if user exists and fetch their call history
+  useEffect(() => {
+    const checkUserAndFetchHistory = async () => {
+      if (!fid) return;
+
+      try {
+        // Check if user exists
+        const { data: userData, error: userError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('fid', fid)
+          .single();
+
+        if (userError) {
+          console.error('Error checking user:', userError);
+          return;
+        }
+
+        setIsExistingUser(!!userData);
+
+        // If user exists, fetch their call history
+        if (userData) {
+          const { data: callData, error: callError } = await supabase
+            .from('calls')
+            .select('*')
+            .eq('fid', fid)
+            .order('created_at', { ascending: false });
+
+          if (callError) {
+            console.error('Error fetching call history:', callError);
+            return;
+          }
+
+          setUserCallHistory(callData || []);
+        }
+      } catch (error) {
+        console.error('Error in user check:', error);
+      }
+    };
+
+    checkUserAndFetchHistory();
+  }, [fid]);
+
   const handleLogoClick = async () => {
     try {
       if (!vapiClient) return;
@@ -206,12 +265,28 @@ export default function App() {
         }
 
       } else {
+        // Prepare context from previous calls
+        const previousCallsContext = userCallHistory
+          .map(call => call.summary)
+          .filter(Boolean)
+          .join('\n');
+
+        const firstMessage = isExistingUser
+          ? `Welcome back ${displayName}! I see we've talked before. How can I help you today?`
+          : displayName 
+            ? `Hey, ${displayName}! I'm Farlo, your personal onboarding buddy for Farcaster. Would you like me to give a quick intro?` 
+            : "Hey! I'm Farlo, your personal onboarding buddy for Farcaster. Would you like me to give a quick intro?";
+
         const result = await vapiClient.start(
           "f169e7e7-3c14-4f10-adfa-1efe00219990",
           {
-            firstMessage: displayName ? `Hey, ${displayName}! I'm Farlo, your personal onboarding buddy for Farcaster. Would you like me to give a quick intro?` : "Hey! I'm Farlo, your personal onboarding buddy for Farcaster. Would you like me to give a quick intro?",
+            firstMessage,
             clientMessages: [],
-            serverMessages: []
+            serverMessages: [],
+            // Add previous calls context if user exists
+            ...(isExistingUser && previousCallsContext && {
+              context: `Previous conversations:\n${previousCallsContext}`
+            })
           }
         );
         setCallResult(result);
