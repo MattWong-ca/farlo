@@ -11,7 +11,6 @@ import { Icon } from "./components/DemoComponents";
 import sdk from '@farcaster/frame-sdk';
 import Image from "next/image";
 import Vapi from "@vapi-ai/web";
-import { createClient } from '@supabase/supabase-js';
 
 // interface CallResult {
 //   id: string;
@@ -26,12 +25,6 @@ interface CallHistory {
   created_at: string;
   // Add other properties as needed
 }
-
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-);
 
 export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
@@ -158,35 +151,15 @@ export default function App() {
       if (!fid) return;
 
       try {
-        // Check if user exists
-        const { data: userData, error: userError } = await supabase
-          .from('users')
-          .select('*')
-          .eq('fid', fid)
-          .single();
-
-        if (userError) {
-          console.error('Error checking user:', userError);
+        const response = await fetch(`/api/user?fid=${fid}`);
+        if (!response.ok) {
+          console.error('Error fetching user data:', response.status);
           return;
         }
 
-        setIsExistingUser(!!userData);
-
-        // If user exists, fetch their call history
-        if (userData) {
-          const { data: callData, error: callError } = await supabase
-            .from('calls')
-            .select('*')
-            .eq('fid', fid)
-            .order('created_at', { ascending: false });
-
-          if (callError) {
-            console.error('Error fetching call history:', callError);
-            return;
-          }
-
-          setUserCallHistory(callData || []);
-        }
+        const data = await response.json();
+        setIsExistingUser(data.isExistingUser);
+        setUserCallHistory(data.callHistory || []);
       } catch (error) {
         console.error('Error in user check:', error);
       }
