@@ -244,9 +244,7 @@ export default function App() {
           .filter(Boolean)
           .join('\n');
 
-        const firstMessage = isExistingUser
-          ? `Welcome back ${displayName}! I see we've talked before. How can I help you today?`
-          : displayName 
+        const firstMessage = displayName 
             ? `Hey, ${displayName}! I'm Farlo, your personal onboarding buddy for Farcaster. Would you like me to give a quick intro?` 
             : "Hey! I'm Farlo, your personal onboarding buddy for Farcaster. Would you like me to give a quick intro?";
 
