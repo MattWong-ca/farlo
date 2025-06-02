@@ -244,9 +244,7 @@ export default function App() {
           .filter(Boolean)
           .join('\n');
 
-        const firstMessage = displayName 
-            ? `Hey, ${displayName}! I'm Farlo, your personal onboarding buddy for Farcaster. Would you like me to give a quick intro?` 
-            : "Hey! I'm Farlo, your personal onboarding buddy for Farcaster. Would you like me to give a quick intro?";
+        const firstMessage = "Hey! I'm Farlo, your personal onboarding buddy for Farcaster. Would you like me to give a quick intro?";
 
         const result = await vapiClient.start(
           "f169e7e7-3c14-4f10-adfa-1efe00219990",
