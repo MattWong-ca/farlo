@@ -274,15 +274,15 @@ export default function App() {
 
   return (
     <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] mini-app-theme from-[var(--app-background)] to-[var(--app-gray)]">
-      {/* <a 
+      <a 
         onClick={async () => {
-          await sdk.actions.openUrl("https://test-mini-app-phi.vercel.app");
+          await sdk.actions.openUrl("https://farlo.vercel.app");
         }}
         href="#"
         className="block w-full p-2 text-center text-sm text-purple-600 hover:text-purple-700 font-medium bg-purple-50 border-b border-purple-100 cursor-pointer"
       >
         On mobile? Click here for sound →
-      </a> */}
+      </a>
 
       <div className="w-full max-w-md mx-auto px-4 py-2">
         <header className="flex justify-between items-center h-11">
