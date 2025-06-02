@@ -409,7 +409,7 @@ export default function App() {
           </button> */}
         </main>
 
-        <footer className="fixed bottom-0 left-0 right-0 bg-[var(--app-background)] border-t border-[var(--app-gray)] py-4 flex justify-center">
+        <footer className="fixed bottom-0 left-0 right-0 bg-[var(--app-background)] border-t border-[var(--app-gray)] flex justify-center">
           <Button
             variant="ghost"
             size="sm"
