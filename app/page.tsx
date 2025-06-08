@@ -11,6 +11,7 @@ import { Icon } from "./components/DemoComponents";
 import sdk from '@farcaster/frame-sdk';
 import Image from "next/image";
 import Vapi from "@vapi-ai/web";
+import Chat from "./components/Chat";
 
 // interface CallResult {
 //   id: string;
@@ -41,6 +42,7 @@ export default function App() {
   const [location, setLocation] = useState<string>("");
   const [userCallHistory, setUserCallHistory] = useState<CallHistory[]>([]);
   const [isExistingUser, setIsExistingUser] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -272,16 +274,21 @@ export default function App() {
     }
   };
 
+  if (showChat) {
+    return <Chat onClose={() => setShowChat(false)} />;
+  }
+
   return (
     <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] mini-app-theme from-[var(--app-background)] to-[var(--app-gray)]">
       <a 
-        onClick={async () => {
-          await sdk.actions.openUrl("https://farlo.vercel.app");
+        onClick={(e) => {
+          e.preventDefault();
+          setShowChat(true);
         }}
         href="#"
         className="block w-full p-2 text-center text-sm text-purple-600 hover:text-purple-700 font-medium bg-purple-50 border-b border-purple-100 cursor-pointer"
       >
-        On mobile? Click here for sound →
+        On mobile? Use chat instead →
       </a>
 
       <div className="w-full max-w-md mx-auto px-4 py-2">
