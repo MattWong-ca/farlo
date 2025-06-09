@@ -6,13 +6,14 @@ YouTube demo:
 <br>
 Farcaster launch:
 
+Start a call with Farlo to learn about the Farcaster social network, get personalized creator/follower/mini app recommendations, and get intros to new people based on your interests!
+
+NEW: you can also chat with Farlo like you do with ChatGPT!
+
 <img width="1440" alt="Farlo" src="https://github.com/user-attachments/assets/7616ee32-3f2b-4a50-9e24-884c0f5cf4ef" />
 
-- Start a call with Farlo to:
-   - Learn about the Farcaster social network
-   - Get personalized creator, follower, and mini app recommendations
-   - Get intros to new people based on your interests!
-- NEW: you can also chat with Farlo like you do with ChatGPT
+<img width="1440" alt="Voice chat share" src="https://github.com/user-attachments/assets/b94117a5-242e-459b-bcfc-5f530e24ec0d" />
+
 
 # Problem
 
