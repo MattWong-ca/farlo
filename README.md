@@ -12,8 +12,6 @@ Farcaster launch:
    - Learn about the Farcaster social network
    - Get personalized creator, follower, and mini app recommendations
    - Get intros to new people based on your interests!
-- Farlo will automatically send you a summary DM after the call
-- Easily share your experience to let others know that you met Farlo
 - NEW: you can also chat with Farlo like you do with ChatGPT
 
 # Problem
@@ -22,7 +20,7 @@ One of the biggest pain points of this billion dollar crypto social app is the o
 
 One solution has been to personally onboard new users one by one, but this is manual and won’t be scalable for bringing the next thousands of users onto the app.
 
-With Farlo, your have a personal onboarding buddy that lives right inside Farcaster as a mini app. As a voice AI agent, it's live 24/7, capable of guiding the next thousands of users to make their first cast, find the right channels, and get intros to new people!
+With Farlo, your have a personal onboarding buddy that lives right inside Farcaster as a mini app. As a voice AI agent, it's live 24/7, capable of guiding the next thousands of users to make their first cast, find the right channels, and get intros to new people! Farlo also keeps a record of your previous calls, so it remembers you :)
 
 <img width="1440" alt="Screenshots" src="https://github.com/user-attachments/assets/8af6bb1d-8d2c-47fd-96fc-15a220a647c6" />
 <img width="1440" alt="Screenshot" src="https://github.com/user-attachments/assets/d3b9cca6-6bc7-40bb-a84a-6ae67567194b" />
@@ -39,3 +37,16 @@ And unlike gated APIs by web2 social apps which make it difficult to build on to
 
 # Techstack
 
+**Vapi**: voice AI agent
+- The primary product, Farlo, is a Vapi assistant. I included overrides based on whether it was a new user (Farlo will have context of your previous calls if you've met before!)
+- Tools: built a tool to help Farlo fetch live data of the most popular mini apps using the Neynar API
+- **Chat**: implemented the newly-released Chat feature so users can also chat with Boardy if they'd like
+
+**Supabase**: storing users + calls
+- Supabase tables used to keep a record of all the users who've met Farlo before, as well as a summary of their calls
+- This will be important for making introductions based on the info we have about them
+- If you've met Farlo already, we use a Vapi override so we can fetch the previous call summaries and give them to Farlo for context
+
+**Farcaster**: mini app + messaging
+- Frontend was built using Coinbase's MiniKit template for mini apps
+- Direct Cast API used for auto-DMing users after their call
