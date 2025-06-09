@@ -1,106 +1,33 @@
-# MiniKit Template
+# Farlo 🛰️
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fbase%2Fdemos%2Ftree%2Fmaster%2Fminikit%2Fmy-simple-mini-app)
+Meet Farlo – your personal onboarding buddy for Farcaster.
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-onchain --mini`](), configured with:
+YouTube demo:
+<br>
+Farcaster launch:
 
-- [MiniKit](https://docs.base.org/builderkits/minikit/overview)
-- [OnchainKit](https://www.base.org/builders/onchainkit)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Next.js](https://nextjs.org/docs)
+- Start a call with Farlo to:
+   - Learn about the Farcaster social network
+   - Get personalized creator, follower, and mini app recommendations
+   - Get intros to new people based on your interests!
+- Farlo will automatically send you a summary DM after the call
+- Easily share your experience to let others know that you met Farlo
+- NEW: you can also chat with Farlo like you do with ChatGPT
 
-## Getting Started
+# Problem
 
-1. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
-```
+One of the biggest pain points of this billion dollar crypto social app is the onboarding UX. Even when the founding team themselves did user interviews, they discovered it was hard for new users to get started, know where to post, and find like-minded people.
 
-2. Verify environment variables, these will be set up by the `npx create-onchain --mini` command:
+One solution has been to personally onboard new users one by one, but this is manual and won’t be scalable for bringing the next thousands of users onto the app.
 
-You can regenerate the FARCASTER Account Association environment variables by running `npx create-onchain --manifest` in your project directory.
+With Farlo, your have a personal onboarding buddy that lives right inside Farcaster as a mini app. As a voice AI agent, it's live 24/7, capable of guiding the next thousands of users to make their first cast, find the right channels, and get intros to new people!
 
-The environment variables enable the following features:
+# Roadmap
 
-- Frame metadata - Sets up the Frame Embed that will be shown when you cast your frame
-- Account association - Allows users to add your frame to their account, enables notifications
-- Redis API keys - Enable Webhooks and background notifications for your application by storing users notification details
+Going forward, Farlo will evolve into the Boardy AI of Farcaster. 
 
-```bash
-# Required for Frame metadata
-NEXT_PUBLIC_URL=
-NEXT_PUBLIC_VERSION=
-NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=
-NEXT_PUBLIC_ICON_URL=
-NEXT_PUBLIC_IMAGE_URL=
-NEXT_PUBLIC_SPLASH_IMAGE_URL=
-NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=
+Imagine you can talk to someone who knows everyone and everything happening on the app. Whether it’s moving to a new city, career questions, or because of similar interests, social discovery is now 1 quick call away.
 
-# Required to allow users to add your frame
-FARCASTER_HEADER=
-FARCASTER_PAYLOAD=
-FARCASTER_SIGNATURE=
+And unlike gated APIs by web2 social apps which make it difficult to build on top of, Farcaster is programmable, so the public user data + APIs lead to deeper + more meaningful connections. Farcaster also has primitives like mini apps, extensions, and a built-in crypto wallet, which makes it the perfect environment for social viral loops + growth experiments.
 
-# Required for webhooks and background notifications
-REDIS_URL=
-REDIS_TOKEN=
-```
-
-3. Start the development server:
-```bash
-npm run dev
-```
-
-## Template Features
-
-### Frame Configuration
-- `.well-known/farcaster.json` endpoint configured for Frame metadata and account association
-- Frame metadata automatically added to page headers in `layout.tsx`
-
-### Background Notifications
-- Redis-backed notification system using Upstash
-- Ready-to-use notification endpoints in `api/notify` and `api/webhook`
-- Notification client utilities in `lib/notification-client.ts`
-
-### Theming
-- Custom theme defined in `theme.css` with OnchainKit variables
-- Pixel font integration with Pixelify Sans
-- Dark/light mode support through OnchainKit
-
-### MiniKit Provider
-The app is wrapped with `MiniKitProvider` in `providers.tsx`, configured with:
-- OnchainKit integration
-- Access to Frames context
-- Sets up Wagmi Connectors
-- Sets up Frame SDK listeners
-- Applies Safe Area Insets
-
-## Customization
-
-To get started building your own frame, follow these steps:
-
-1. Remove the DemoComponents:
-   - Delete `components/DemoComponents.tsx`
-   - Remove demo-related imports from `page.tsx`
-
-2. Start building your Frame:
-   - Modify `page.tsx` to create your Frame UI
-   - Update theme variables in `theme.css`
-   - Adjust MiniKit configuration in `providers.tsx`
-
-3. Add your frame to your account:
-   - Cast your frame to see it in action
-   - Share your frame with others to start building your community
-
-## Learn More
-
-- [MiniKit Documentation](https://docs.base.org/builderkits/minikit/overview)
-- [OnchainKit Documentation](https://docs.base.org/builderkits/onchainkit/getting-started)
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+# Techstack
