@@ -2,11 +2,11 @@
 
 Meet Farlo – your personal onboarding buddy for Farcaster.
 
-YouTube demo:
+YouTube demo: https://youtu.be/a1YpC8bhED0
 <br>
 Farcaster launch:
 
-Start a call with Farlo to learn about the Farcaster social network, get personalized creator/follower/mini app recommendations, and get intros to new people based on your interests!
+Start a call with Farlo to learn about the Farcaster social network, get personalized follow/channel/mini app recommendations, and get intros to new people based on your interests!
 
 NEW: you can also chat with Farlo like you do with ChatGPT!
 
