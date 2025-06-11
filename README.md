@@ -4,7 +4,9 @@ Meet Farlo – your personal onboarding buddy for Farcaster.
 
 YouTube demo: https://youtu.be/a1YpC8bhED0
 <br>
-Farcaster launch:
+Farcaster launch: https://farcaster.xyz/mtt/0xb8b6b3c4
+<br>
+X launch: https://x.com/mattwong_ca/status/1932622963549090059
 
 Start a call with Farlo to learn about the Farcaster social network, get personalized follow/channel/mini app recommendations, and get intros to new people based on your interests!
 
