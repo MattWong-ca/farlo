@@ -324,17 +324,22 @@ export default function App() {
           </div>
 
           <div className="w-[70%] mt-14 space-y-2">
+            <div className="text-red-500 text-center font-medium mb-2">
+              Ran out of API credits :(
+            </div>
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={handleLogoClick}
-                className="h-10 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 border text-white bg-purple-600"
+                disabled
+                className="h-10 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 border text-gray-400 bg-gray-200 cursor-not-allowed"
               >
                 <Icon name={"play"} size="sm" />
                 <p className="text-base font-semibold">{'Start Call'}</p>
               </button>
               <button
                 onClick={handleLogoClick}
-                className="h-10 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 border bg-white hover:bg-gray-50 text-gray-900 border-gray-200"
+                disabled
+                className="h-10 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 border bg-white hover:bg-gray-50 text-gray-900 border-gray-200 cursor-not-allowed"
               >
                 <Icon name={"stop"} size="sm" />
                 <p className="text-base font-semibold">{'End Call'}</p>
